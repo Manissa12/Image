@@ -1,0 +1,72 @@
+CartesHTML_Groupees =
+VAR DonneesCritiquesUnique =
+    DISTINCT(
+        SELECTCOLUMNS(
+            FILTER(
+                'Table finale',
+                'Table finale'[Criticité de la donnée] = "Critique"
+            ),
+            "Nom", 'Table finale'[Nom de la donnée]
+        )
+    )
+
+VAR ListeCartes =
+    ADDCOLUMNS(
+        DonneesCritiquesUnique,
+        "Statut", 
+            CALCULATE([STATUT %], 'Table finale'[Nom de la donnée] = [Nom]),
+        "Label", 
+            CALCULATE([LabelDynamique], 'Table finale'[Nom de la donnée] = [Nom]),
+        "Carte",
+        "<div style='
+            flex: 0 0 48%;
+            margin: 1%;
+            background-color:" &
+            SWITCH([Label],
+                "ROUGE", "#FDE6E6",
+                "IVOIRE", "#F8F3E7",
+                "BRONZE", "#FFF4E3",
+                "ARGENT", "#E7EBEF",
+                "#FFFFFF"
+            ) & ";
+            border-radius:12px;
+            padding:20px;
+            text-align:center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-family:Segoe UI, sans-serif;
+        '>
+            <div style='font-size:16px; font-weight:600; margin-bottom:10px;'>" &
+                [Nom] & "</div>
+            <div style='font-size:28px; font-weight:bold; margin-bottom:14px;'>" &
+                FORMAT([Statut], "0 %") & "</div>
+            <div style='
+                display:inline-block;
+                padding:5px 12px;
+                background-color:" &
+                SWITCH([Label],
+                    "ROUGE", "#C70039",
+                    "IVOIRE", "#D4C6A5",
+                    "BRONZE", "#D58E00",
+                    "ARGENT", "#B0B4B9",
+                    "#C0C0C0"
+                ) & ";
+                color:#000;
+                font-weight:bold;
+                border-radius:8px;
+                font-size:13px;
+            '>" &
+                [Label] & "</div>
+        </div>"
+    )
+
+VAR ToutesLesCartes = CONCATENATEX(ListeCartes, [Carte], "")
+
+RETURN
+"
+<div style='
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+'>
+" & ToutesLesCartes & "
+</div>"
