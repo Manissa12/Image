@@ -1,0 +1,23 @@
+CartesHTML_Groupees =
+VAR DonneesCritiques =
+    FILTER('Table finale', 'Table finale'[Criticité de la donnée] = "Critique")
+
+VAR Liste =
+    ADDCOLUMNS(
+        DonneesCritiques,
+        "Carte", "<div style='
+            display:inline-block;
+            width: 48%;
+            margin: 1%;
+            background:#eee;
+            padding:10px;
+            border-radius:8px;
+            font-family:Segoe UI;
+            text-align:center;
+        '>" & [Nom de la donnée] & "<br>" & FORMAT([STATUT %], "0 %") & "</div>"
+    )
+
+VAR Toutes = CONCATENATEX(Liste, [Carte], "")
+
+RETURN
+"<div style='display:flex; flex-wrap:wrap;'>" & Toutes & "</div>"
