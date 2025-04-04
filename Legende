@@ -1,0 +1,14 @@
+<div class="legend-container">
+  <div class="legend-item">
+    <span class="legend-circle red"></span>
+    <span class="legend-label">0–70%</span>
+  </div>
+  <div class="legend-item">
+    <span class="legend-circle orange"></span>
+    <span class="legend-label">70–90%</span>
+  </div>
+  <div class="legend-item">
+    <span class="legend-circle green"></span>
+    <span class="legend-label">90–100%</span>
+  </div>
+</div>
