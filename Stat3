@@ -1,0 +1,12 @@
+STATUT % Affichage = 
+VAR HasData =
+    CALCULATE(
+        COUNTROWS('Table finale'),
+        'Table finale'[Résultat] IN {"OK", "KO"}
+    )
+RETURN
+IF(
+    HasData = 0,
+    BLANK(),
+    [STATUT %]
+)
