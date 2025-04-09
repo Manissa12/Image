@@ -42,3 +42,5 @@ def controle_coherence_tiers_emetteur(df_titre, df_dimension, df_transco,
     }, inplace=True)
 
     return result
+resultat = controle_coherence_tiers_emetteur(df_titre, df_dimension, df_transco)
+print(resultat.head())
