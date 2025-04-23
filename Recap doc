@@ -1,0 +1,100 @@
+Parfait, voici un rapport global de remarques pour améliorer ton document en anglais. Il est structuré par type de correction (langue, style, clarté, cohérence). Ce rapport est rédigé de manière professionnelle pour que tu puisses le réutiliser dans un contexte entreprise (BNP Cardif).
+
+⸻
+
+1. Langue & Grammaire
+
+A. Orthographe / Forme
+	•	“data cartographies” → devrait être reformulé en “data mapping” ou “data cartography” (cartographies est mal utilisé en anglais).
+	•	“data lineage” est parfois mal intégré grammaticalement. Exemple : “contribute to the end-to-end data lineage” devrait être “contribute to establishing the end-to-end data lineage.”
+	•	“i.e.” et “e.g.” doivent toujours être suivis d’une virgule : → i.e., Finance teams involved…
+	•	“Referentials” est souvent utilisé comme un faux-ami. En anglais, il vaut mieux dire “reference data systems” ou simplement “reference systems.”
+	•	“data cartographies in their scope” → “data cartography within their scope”
+
+B. Pluriels et accord
+	•	Attention aux pluriels irréguliers comme “data” : c’est déjà le pluriel de “datum”. Donc, dire “these data are” et non “this data is” (même si l’usage évolue).
+	•	Certaines formulations comme “Each Manager are…” doivent être corrigées en “Each manager is…”
+
+⸻
+
+2. Clarté & Reformulations proposées
+
+A. Executive Summary
+
+Original : “to spread “Know Your Data” culture across Finance and thereby, ensure an appropriation…”
+
+Suggestion : “to promote a “Know Your Data” culture throughout Finance, thereby fostering ownership of data governance and quality principles.”
+
+Pourquoi ? : “appropriation” en anglais est un faux-ami ici, “ownership” est plus adapté.
+
+⸻
+
+B. Objectifs (Section 1.2)
+
+Original : “Define and ensure a global governance at Finance level and between Finance Head Office…”
+
+Suggestion : “Establish a unified governance framework at the Finance level, coordinated between the Finance Head Office…”
+
+Original : “Specify the issue management and remediation (IMR) process…”
+
+Suggestion : “Define and clarify the issue management and remediation (IMR) process…”
+
+Pourquoi ? : “Specify” est un peu vague ici. “Define and clarify” est plus clair et professionnel.
+
+⸻
+
+3. Redondances et simplifications
+	•	“Finance Data Quality and Governance team” est répété trop souvent dans certaines sections (jusqu’à 5 fois en un paragraphe). Alterne avec :
+	•	“the Data Quality team”,
+	•	“the Governance team”,
+	•	“they” (lorsque le référent est clair),
+	•	ou reformule les phrases pour éviter la répétition.
+
+⸻
+
+4. Style professionnel
+	•	Évite les formulations trop passives ou bureaucratiques :
+	•	“should be controlled, monitored and improved” → “must be actively monitored and continuously improved.”
+	•	“The implementation is under the responsibility of…” → “The implementation is managed by…”
+	•	Certains titres gagneraient à être plus directs :
+	•	“General Principles Related to…” → “Key Principles for Data Governance and Quality”
+	•	“Definition, Monitoring and Reporting of Data Quality Indicators” → “Managing and Reporting Data Quality Indicators”
+
+⸻
+
+5. Mise en page & cohérence visuelle
+	•	Certains paragraphes sont trop longs : sépare-les avec des sous-titres ou bullets, surtout dans la partie sur les rôles et responsabilités.
+	•	Uniformise les styles : parfois “Data Quality Analyst” est abrégé (DQA), parfois écrit en toutes lettres – choisis une seule convention et garde-la tout au long du document.
+
+⸻
+
+6. Ajouts ou précisions utiles
+	•	Glossaire :
+	•	Bon effort, mais certaines définitions sont trop techniques ou confuses. Exemple :
+“Data: A data is a piece of information…”
+→ “Data: Information stored or transmitted in a predefined format, representing facts such as names, dates, or codes.”
+	•	Intégrer un tableau au lieu d’un texte brut rendrait la section plus lisible.
+	•	Appendix sur les dimensions qualité : très bien visuellement, mais certains intitulés doivent être revus :
+	•	“Timeliness: whether the data is available on time” → ajoute : “…and whether it meets the reporting deadlines.”
+
+⸻
+
+7. Phrases à reformuler entièrement
+
+Exemple 1
+
+“The process of endorsement and transmission of the responsibility around data quality relies on certification.”
+
+Suggestion :
+“The endorsement and transfer of data quality responsibility are formalized through a certification process.”
+
+⸻
+
+Conclusion
+
+Le document est très solide sur le fond, mais mérite d’être :
+	•	Allégé en répétitions,
+	•	Reformulé pour une fluidité professionnelle native,
+	•	Clarifié sur certaines définitions et objectifs.
+
+Souhaites-tu que je t’aide à produire une version corrigée complète en Word ou veux-tu d’abord appliquer ces remarques toi-même ?
