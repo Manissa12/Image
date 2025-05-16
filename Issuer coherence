@@ -1,0 +1,41 @@
+import pandas as pd
+
+def controle_coherence_tiers_emetteur(df_titres, df_dimension, df_transco):
+    # Colonnes
+    col_code_titre = 'ID_TITRE'
+    col_tiers_emetteur = 'TIERS_EMETTEUR'
+    col_security_id = 'Security ID CODA'
+    col_issuer = 'Issuer'
+    col_code2 = 'Code 2'
+    col_transco1 = 'Transco 1'
+
+    # Étape 1 : Jointure REF_TITRES + DIMENSION sur le code titre
+    df_merged = df_titres.merge(
+        df_dimension[[col_security_id, col_issuer]],
+        how='left',
+        left_on=col_code_titre,
+        right_on=col_security_id
+    )
+
+    # Étape 2 : Jointure avec la table TRANSCO pour trouver l’équivalent numérique
+    df_merged = df_merged.merge(
+        df_transco[[col_code2, col_transco1]],
+        how='left',
+        left_on=col_issuer,
+        right_on=col_code2
+    )
+
+    # Étape 3 : Comparaison du TIERS_EMETTEUR (référentiel) avec le Transco issu du DIMENSION
+    df_merged['Résultat'] = df_merged.apply(
+        lambda row: 'OK' if str(row[col_tiers_emetteur]) == str(row[col_transco1]) else 'KO',
+        axis=1
+    )
+
+    # (Optionnel) Pour audit : dataframe complet
+    df_resultat_complet = df_merged[[col_code_titre, col_tiers_emetteur, col_transco1, 'Résultat']].copy()
+    df_resultat_complet.columns = ['Code Titre', 'Tiers Émetteur (réf)', 'Tiers Émetteur (dimension après transco)', 'Résultat']
+
+    # Résultat final uniquement
+    df_resultat = df_merged[['Résultat']].copy()
+
+    return df_resultat, df_resultat_complet
