@@ -1,0 +1,2 @@
+missing = [i for i in df_coherent_emetteur.index if i not in results_coherence_emetteur_ok.index]
+print("Index manquants :", missing)
