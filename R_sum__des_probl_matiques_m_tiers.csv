@@ -1,0 +1,7 @@
+Équipe,Pain points,Limites et besoins
+CG,Problème d’extourne de réévaluation sur un tiers (39000446).,"Données hétérogènes dans le référentiel (ex: Produits d’assurance, Sections homogènes et Portefeuilles)."
+DFAR fiabi,Mauvais tiers utilisés pour les reversements ; erreurs de paramétrage avec création de tiers faux.,Pas de consultation directe des comptes bancaires ; besoin d’une revue globale et de connexion avec le référentiel Groupe (REGENT).
+Holding,Adresses corrigées pour DAS 2 ; codes multiples pour un même tiers selon orthographe.,"Sur Transco globale, les MAJ ne sont pas visibles pour le métier."
+IAE,Non-maîtrise du référentiel tiers par l’équipe ; dépendance à une requête SAS.,
+Pôle paiements GIE,Référentiels COFAH et comptable non homogènes ; désalignement sur les fournisseurs.,"Besoin de revue des fournisseurs par Siret ; besoin du n° de TVA intra, données d’honoraires à clarifier."
+RMN,Manque de Referential Officer ; mauvaise gestion des modifications de tiers.,Référentiel ENS incomplet ; erreurs sur Transco Coda/Surf ; mauvaise association des données dans le référentiel.
