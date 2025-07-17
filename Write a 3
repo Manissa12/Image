@@ -1,0 +1,88 @@
+from openpyxl import load_workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
+
+# Charger le fichier Excel existant
+wb = load_workbook("control_results_Extraction_2.xlsx")
+
+colonnes_titres = ["ID_TITRE", "DESCRIPTION", "NATURE", "TIERS_EMETTEUR", "DATE_ECHEANCE", "DATE_EMISSION"]
+
+for col in colonnes_titres:
+    # Construire ton DataFrame pour chaque colonne
+    if col == "ID_TITRE":
+        df_result = pd.DataFrame({
+            "ID_TITRE": df_Titres[col],
+            "RITREQ.1.c1": results_completed[col],
+            "RITREQ.2.c1": results_unicite_id_titre,
+            "RITREQ.2.c2": results_coherence_id_titre,
+            "RITREQ.2.c3": results_coherence2_id_titre,
+            "DATE_EXTRACTION": date_Extraction
+        })
+    elif col == "DESCRIPTION":
+        df_result = pd.DataFrame({
+            "ID_TITRE": df_Titres["ID_TITRE"],
+            "DESCRIPTION": df_Titres[col],
+            "RITREQ.1.c1": results_completed[col],
+            "RITREQ.3.c1": results_coherence_description,
+            "DATE_EXTRACTION": date_Extraction
+        })
+    elif col == "NATURE":
+        df_result = pd.DataFrame({
+            "ID_TITRE": df_Titres["ID_TITRE"],
+            "NATURE": df_Titres[col],
+            "RITREQ.1.c1": results_completed[col],
+            "RITREQ.3.c1": results_coherence_nature,
+            "RITREQ.3.c2": results_coherence2_nature,
+            "DATE_EXTRACTION": date_Extraction
+        })
+    elif col == "TIERS_EMETTEUR":
+        df_result = pd.DataFrame({
+            "ID_TITRE": df_Titres["ID_TITRE"],
+            "TIERS_EMETTEUR": df_Titres[col],
+            "RITREQ.1.c1": results_completed[col],
+            "RITREQ.3.c1": results_coherence_emetteur,
+            "DATE_EXTRACTION": date_Extraction
+        })
+    elif col == "DATE_ECHEANCE":
+        df_result = pd.DataFrame({
+            "ID_TITRE": df_Titres["ID_TITRE"],
+            "DATE_ECHEANCE": df_Titres[col],
+            "RITREQ.1.c1": results_completed[col],
+            "RITREQ.5.v.1": results_validite_1_date_echeance,
+            "RITREQ.5.v.2": results_validite_2_date_echeance,
+            "RITREQ.5.c.1": results_coherence_date_echeance,
+            "DATE_EXTRACTION": date_Extraction
+        })
+    elif col == "DATE_EMISSION":
+        df_result = pd.DataFrame({
+            "ID_TITRE": df_Titres["ID_TITRE"],
+            "DATE_EMISSION": df_Titres[col],
+            "RITREQ.1.c1": results_completed[col],
+            "RITREQ.5.v.1": results_validite_1_date_emission,
+            "RITREQ.5.v.2": results_validite_2_date_emission,
+            "RITREQ.5.c.1": results_coherence_date_emission,
+            "DATE_EXTRACTION": date_Extraction
+        })
+    else:
+        continue
+
+    # Si la feuille n'existe pas encore, la créer
+    if col in wb.sheetnames:
+        ws = wb[col]
+    else:
+        ws = wb.create_sheet(col)
+
+    # Convertir DataFrame en lignes
+    rows = list(dataframe_to_rows(df_result, index=False, header=False))
+
+    # Trouver la première ligne vide
+    start_row = ws.max_row + 1
+
+    # Écrire ligne par ligne à partir de start_row
+    for r_idx, row in enumerate(rows, start=start_row):
+        for c_idx, value in enumerate(row, start=1):
+            ws.cell(row=r_idx, column=c_idx, value=value)
+
+# Enregistrer le fichier final
+wb.save("control_results_Extraction_2.xlsx")
+
+print("✅ Données ajoutées proprement à la suite dans chaque feuille.")
