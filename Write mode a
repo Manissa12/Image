@@ -1,0 +1,32 @@
+import pandas as pd
+from openpyxl import load_workbook
+
+output_file = "control_results_Extraction_2.xlsx"
+colonnes_titres = ["ID_TITRE", "DESCRIPTION", "NATURE", "TIERS_EMETTEUR", "DATE_ECHEANCE", "DATE_EMISSION"]
+
+# Charger le classeur existant
+book = load_workbook(output_file)
+
+for col in colonnes_titres:
+    # Création du DataFrame personnalisé selon `col`
+    if col == "ID_TITRE":
+        df_result = pd.DataFrame({
+            "ID_TITRE": df_Titres[col],
+            "RITREQ.1.c1": results_completed[col],
+            "RITREQ.2.c1": results_unicite_id_titre,
+            "RITREQ.2.c2": results_coherence_id_titre,
+            "RITREQ.2.c3": results_coherence2_id_titre,
+            "DATE_EXTRACTION": date_Extraction
+        })
+
+    # Calculer le point de départ (startrow) dans la feuille
+    if col in book.sheetnames:
+        sheet = book[col]
+        startrow = sheet.max_row  # dernière ligne occupée
+    else:
+        startrow = 0
+
+    # Ouvrir le writer en mode 'a' sans if_sheet_exists
+    with pd.ExcelWriter(output_file, engine="openpyxl", mode="a", if_sheet_exists="overlay") as writer:
+        writer.book = book
+        df_result.to_excel(writer, sheet_name=col, startrow=startrow, index=False, header=(startrow == 0))
