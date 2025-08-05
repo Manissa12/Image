@@ -1,0 +1,43 @@
+1. Vue d’ensemble (KPI globaux) — “Santé des données”
+	•	Carte KPI : Total de contrôles effectués
+	•	Carte KPI : Total de lignes analysées
+	•	Carte KPI + jauge : % global de données correctes (moyenne)
+	•	Carte KPI : Nombre total d’anomalies détectées
+	•	Carte KPI : Nombre de référentiels intégrés
+	•	Carte KPI ou jauge circulaire : Score de qualité global (calculé)
+
+⸻
+
+2. Analyse par référentiel (Titres, Actifs Financiers, etc.)
+	•	Graphique à barres verticales : % de qualité par référentiel
+	•	Graphique à colonnes empilées : Nombre d’anomalies par référentiel
+	•	Diagramme en secteurs ou en barres empilées : Répartition des types de contrôle par référentiel (validité, unicité, complétude, cohérence)
+	•	Matrice ou carte thermique : Heatmap Référentiel × Type de contrôle → % correct
+
+⸻
+
+3. Analyse par donnée contrôlée
+	•	Graphique en barres horizontales : Top 10 des données avec le plus d’anomalies
+	•	Tableau dynamique : Nom de la donnée, % correct, type de contrôle, criticité, etc.
+	•	Histogramme : Détail des anomalies par type de contrôle
+	•	Donut ou camembert : Distribution des criticités (Critique, Clé, Non Clé)
+
+⸻
+
+4. Alertes & priorisation (focus sur le risque)
+	•	Tableau avec mise en forme conditionnelle : Liste des données critiques avec score < 90 %
+	•	Carte thermique ou graphique de dispersion : Heatmap Criticité × % correct
+	•	Graphique avec pictogrammes : Niveaux d’alerte par référentiel (feux, drapeaux, icônes)
+
+⸻
+
+5. Filtres et navigation
+	•	Slicer déroulant ou bouton : Filtre par référentiel
+	•	Slicer horizontal : Filtre par criticité
+	•	Slicer : Filtre par type de contrôle
+	•	Slicer de recherche : Filtre par nom de la donnée
+Bonus (facultatif si tu veux aller plus loin)
+	•	Courbe de tendance : Évolution de la qualité dans le temps (si tu ajoutes une date)
+	•	Carte ou jauge : Score pondéré par criticité
+	•	Navigation par page : Pages dédiées par référentiel
+	•	Bouton : Export des anomalies (tableau)
