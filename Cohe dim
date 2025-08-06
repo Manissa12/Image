@@ -1,0 +1,20 @@
+def nettoyer_colonne(colonne):
+    return colonne.astype(str).str.strip().str.upper().str.normalize('NFKC')
+
+def is_coherent_DIM(df_src, col_src, col_ref):
+    df_dim = df_Dimension[["Security ID Dimension", col_ref]].drop_duplicates(subset=["Security ID Dimension"])
+    
+    # Nettoyage
+    df_src[col_src] = nettoyer_colonne(df_src[col_src])
+    df_dim[col_ref] = nettoyer_colonne(df_dim[col_ref])
+    
+    df_merged = df_src.merge(df_dim, left_on="ID_TITRE2", right_on="Security ID Dimension", how="left", suffixes=("", "_ref"))
+
+    # Comparaison propre
+    coherence_result = df_merged.apply(
+        lambda row: "OK" if row[col_src] == row[col_ref] else "KO",
+        axis=1
+    )
+
+    coherence_result.index = df_src.index
+    return coherence_result
