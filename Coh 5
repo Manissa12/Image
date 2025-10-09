@@ -1,0 +1,18 @@
+code = "AA4395828"  # ton code
+
+print("↪︎ via CODA")
+print(df_Dimension.loc[df_Dimension["Security ID CODA"] == code,
+                       ["Security ID CODA","Security ID Dimension","Security name"]])
+
+print("\n↪︎ via Dimension")
+print(df_Dimension.loc[df_Dimension["Security ID Dimension"] == code,
+                       ["Security ID CODA","Security ID Dimension","Security name"]])
+
+
+
+tmp = df_Titres.loc[df_Titres["ID_TITRE2"]==code, ["ID_TITRE2","DESCRIPTION"]].merge(
+    df_Dimension[["Security ID Dimension","Security name"]],
+    left_on="ID_TITRE2", right_on="Security ID Dimension", how="left"
+)
+print(tmp[["ID_TITRE2","DESCRIPTION","Security name"]])
+print("égalité brute :", tmp["DESCRIPTION"].iloc[0] == tmp["Security name"].iloc[0])
