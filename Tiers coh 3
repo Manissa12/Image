@@ -1,0 +1,23 @@
+# 🔹 Choisis un code titre pour le test :
+code_test = "AA33SP528"   # <-- remplace par un code existant de ton jeu
+
+# 1️⃣ Extraire la ligne correspondante dans le référentiel TITRES
+titre_row = df_Titres.loc[df_Titres["ID_TITRE2"] == code_test].iloc[0]
+tiers_titres = str(titre_row["TIERS_EMETTEUR"]).strip()
+print(f"Tiers émetteur (Titres): {tiers_titres}")
+
+# 2️⃣ Trouver la ligne correspondante dans le référentiel DIMENSION
+dim_row = df_Dimension.loc[df_Dimension["Security ID CODA"] == code_test].iloc[0]
+issuer_dim = str(dim_row["Issuer"]).strip()
+print(f"Issuer (Dimension): {issuer_dim}")
+
+# 3️⃣ Récupérer toutes les transcos possibles pour cet Issuer
+transcos_possibles = (
+    df_Transco_tiers.loc[df_Transco_tiers["Transco 1"] == issuer_dim, "Code 2"]
+    .astype(str).str.strip().unique().tolist()
+)
+print(f"Transcos possibles pour {issuer_dim}: {transcos_possibles}")
+
+# 4️⃣ Vérifier si le TIERS_EMETTEUR appartient à la liste des transcos
+is_ok = tiers_titres in transcos_possibles
+print(f"Résultat du test pour {code_test} → {'OK' if is_ok else 'KO'}")
