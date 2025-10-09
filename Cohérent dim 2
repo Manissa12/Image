@@ -1,0 +1,47 @@
+def _clean(s: object) -> str:
+    if s is None:
+        return ""
+    s = str(s)
+
+    # 1) Espaces spéciaux -> espace normal / suppression
+    s = s.replace("\u00A0", " ")  # NBSP
+    s = s.replace("\u2007", " ")  # figure space
+    s = s.replace("\u202F", " ")  # narrow no-break space
+    s = s.replace("\u200B", "")   # zero-width space
+
+    # 2) Unifier tous les slashes en "/"
+    s = s.translate({
+        ord("\\"): ord("/"),
+        ord("／"): ord("/"),  # U+FF0F
+        ord("∕"): ord("/"),  # U+2215
+        ord("⁄"): ord("/"),  # U+2044
+    })
+
+    # 3) Trim + compacter les espaces
+    s = " ".join(s.strip().split())
+
+    # (optionnel) ignorer la casse :
+    # s = s.lower()
+
+    return s
+
+def is_coherent_DIM(df_src, col_src, col_ref):
+    """
+    Compare df_src[col_src] à df_Dimension[col_ref] (jointure sur ID_TITRE2 = Security ID Dimension).
+    Retourne une Series "OK"/"KO" alignée sur df_src.
+    """
+    df_dim = df_Dimension[["Security ID Dimension", col_ref]].drop_duplicates(
+        subset=["Security ID Dimension"]
+    )
+    df_m = df_src.merge(
+        df_dim,
+        left_on="ID_TITRE2",
+        right_on="Security ID Dimension",
+        how="left",
+        suffixes=("", "_ref"),
+    )
+
+    # comparaison après nettoyage minimal ciblé
+    res = (_clean(df_m[col_src]) == _clean(df_m[col_ref])).map({True: "OK", False: "KO"})
+    res.index = df_src.index
+    return res
