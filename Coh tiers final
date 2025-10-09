@@ -1,0 +1,59 @@
+import pandas as pd
+
+def controle_coherence_tiers_emetteur(df_titres, df_dimension, df_transco):
+    """
+    Règle :
+      pour chaque code titre (ID_TITRE2),
+      - on récupère l'Issuer (depuis df_dimension via Security ID CODA)
+      - on récupère toutes les transcos possibles de cet Issuer (dans df_transco)
+      - on dit OK si TIERS_EMETTEUR ∈ ces transcos possibles, sinon KO
+
+    Retour :
+      Series "Résultat" (OK/KO) alignée sur l'index d'entrée de df_titres.
+    """
+
+    # --- petites fonctions pour comparer proprement ---
+    def norm_dim(x):
+        """Normalise une valeur 'dimension' (Issuer, Code 2)"""
+        s = "" if pd.isna(x) else str(x)
+        return s.strip().upper()
+
+    def norm_titre(x):
+        """Normalise une valeur 'titres' (TIERS_EMETTEUR, Transco 1)"""
+        s = "" if pd.isna(x) else str(x)
+        s = s.strip().replace(" ", "")
+        if s.endswith(".0"):  # cas Excel
+            s = s[:-2]
+        return s
+
+    # ----- 1) préparer l'index d'origine -----
+    base = df_titres.copy()
+    base["__orig_idx__"] = base.index  # on n'oublie pas où on était
+
+    # ----- 2) ajouter l'Issuer depuis df_dimension (merge simple left) -----
+    # on garde uniquement les colonnes utiles
+    dim_small = df_dimension[["Security ID CODA", "Issuer"]].drop_duplicates(subset=["Security ID CODA"])
+    merged = base.merge(dim_small, how="left",
+                        left_on="ID_TITRE2", right_on="Security ID CODA")
+
+    # ----- 3) construire la transco : dict {Code 2 (DIM) -> liste de Transco 1 (TITRES)} -----
+    transco_map = {}
+    for _, row in df_transco[["Code 2", "Transco 1"]].iterrows():
+        key_dim = norm_dim(row["Code 2"])           # ex: "B156061"
+        val_titre = norm_titre(row["Transco 1"])    # ex: "13584"
+        if key_dim == "" or val_titre == "":
+            continue
+        transco_map.setdefault(key_dim, set()).add(val_titre)
+
+    # ----- 4) pour chaque ligne, vérifier l'appartenance -----
+    result_list = []
+    for _, row in merged.iterrows():
+        tiers = norm_titre(row["TIERS_EMETTEUR"])  # code titres
+        issuer = norm_dim(row["Issuer"])           # code dimension
+        possibles = transco_map.get(issuer, set()) # toutes les transcos possibles pour cet issuer
+        result_list.append("OK" if tiers in possibles else "KO")
+
+    # ----- 5) renvoyer une Series alignée sur l'index d'entrée -----
+    out = pd.Series(result_list, index=merged["__orig_idx__"], name="Résultat")
+    out.index.name = None
+    return out
