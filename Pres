@@ -1,0 +1,11 @@
+Pour la réunion de lundi :
+	1.	Sélection des codes actifs
+	•	SCOOPS : date de suppression vide
+	•	CODA : date de fin de validité supérieure à la date du jour
+	2.	Comparaison des référentiels
+	•	Identifier les codes présents à la fois dans SCOOPS et CODA
+	•	Vérifier la cohérence des données SCOOPS par rapport à CODA
+	3.	Traitement des doublons SCOOPS
+	•	Plusieurs lignes existent pour un même Code Coda → analyser et consolider
+	4.	Contrôles sur les codes communs
+	•	Vérifications de cohérence : SIRET, pays, …
