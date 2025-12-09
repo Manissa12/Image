@@ -1,0 +1,50 @@
+import os
+import glob
+import pandas as pd
+
+# Dossier contenant les fichiers Excel à fusionner
+dossier = r"chemin\vers\ton\repertoire"
+
+# Fichier de sortie
+fichier_sortie = "fusion_tous_les_fichiers.xlsx"
+
+# Récupération de tous les fichiers .xlsx dans le dossier
+liste_fichiers = sorted(glob.glob(os.path.join(dossier, "*.xlsx")))
+
+if len(liste_fichiers) < 2:
+    raise ValueError("Il faut au moins deux fichiers Excel dans le dossier")
+
+print("Fichiers trouvés :")
+for f in liste_fichiers:
+    print("  ", os.path.basename(f))
+
+# Chargement des objets ExcelFile pour chaque fichier
+liste_xls = [pd.ExcelFile(f) for f in liste_fichiers]
+
+# Onglets communs à tous les fichiers
+ensembles_onglets = [set(xls.sheet_names) for xls in liste_xls]
+onglets_communs = set.intersection(*ensembles_onglets)
+
+print("Onglets communs trouvés :", onglets_communs)
+
+with pd.ExcelWriter(fichier_sortie, engine="openpyxl") as writer:
+    for onglet in onglets_communs:
+        print(f"Traitement de l onglet : {onglet}")
+
+        # On lit l onglet pour chaque fichier et on stocke dans une liste
+        liste_df = []
+        for fichier in liste_fichiers:
+            df = pd.read_excel(
+                fichier,
+                sheet_name=onglet,
+                keep_default_na=False  # garde "NA", "N1" etc comme texte
+            )
+            liste_df.append(df)
+
+        # Concaténation verticale de tous les fichiers pour cet onglet
+        df_concat = pd.concat(liste_df, ignore_index=True)
+
+        # Ecriture dans le fichier de sortie
+        df_concat.to_excel(writer, sheet_name=onglet, index=False)
+
+print(f"Fusion terminée | Fichier créé : {fichier_sortie}")
