@@ -1,0 +1,65 @@
+import os
+import glob
+import pandas as pd
+
+# =========================
+# 1. Paramètres à adapter
+# =========================
+
+# Dossier contenant les fichiers CSV à fusionner
+dossier = r"C:\CHEMIN\VERS\TON\DOSSIER"   # <-- à modifier
+
+# Nom du fichier de sortie
+fichier_sortie = "fusion_csv.xlsx"
+
+# Séparateur utilisé dans tes CSV
+# En France c'est souvent ';'. Si c'est une virgule, mets ','.
+separateur_csv = ';'
+
+
+# =========================
+# 2. Récupération des CSV
+# =========================
+
+liste_fichiers = sorted(glob.glob(os.path.join(dossier, "*.csv")))
+
+print("Fichiers trouvés :")
+for f in liste_fichiers:
+    print(" -", os.path.basename(f))
+
+if len(liste_fichiers) < 2:
+    raise ValueError("Il faut au moins deux fichiers CSV dans le dossier.")
+
+
+# =========================
+# 3. Lecture + concaténation
+# =========================
+
+liste_df = []
+
+for fichier in liste_fichiers:
+    print("Lecture :", os.path.basename(fichier))
+
+    df = pd.read_csv(
+        fichier,
+        sep=separateur_csv,
+        keep_default_na=False   # ne transforme pas "NA", "N1" en NaN
+    )
+
+    # Optionnel : garder la trace de la source
+    df["__source_fichier"] = os.path.basename(fichier)
+
+    liste_df.append(df)
+
+# Concaténation verticale
+df_concat = pd.concat(liste_df, ignore_index=True)
+
+print("Nombre total de lignes fusionnées :", len(df_concat))
+
+
+# =========================
+# 4. Sauvegarde
+# =========================
+
+df_concat.to_excel(fichier_sortie, index=False)
+print("Fusion terminée | Fichier Excel créé :", fichier_sortie)
