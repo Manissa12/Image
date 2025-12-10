@@ -1,0 +1,39 @@
+print("\n==============================")
+print("📊 RÉCAPITULATIF DES FICHIERS")
+print("==============================")
+
+# Tableau formaté
+max_len = max(len(name) for name, _ in stats)
+print(f"{'Fichier'.ljust(max_len)} | Lignes")
+print("-" * (max_len + 10))
+
+total_original = 0
+for name, nb in stats:
+    print(f"{name.ljust(max_len)} | {nb}")
+    total_original += nb
+
+print("-" * (max_len + 10))
+print(f"{'TOTAL'.ljust(max_len)} | {total_original}")
+
+print("\n==============================")
+print("📊 RÉCAPITULATIF FICHIER FINAL")
+print("==============================")
+
+total_final = len(df_concat)
+print(f"Lignes dans le fichier fusionné : {total_final}")
+
+# =========================
+# 6. Validation
+# =========================
+
+print("\n==============================")
+print("🔎 VALIDATION")
+print("==============================")
+
+if total_original == total_final:
+    print("✅ OK : le total correspond parfaitement ! Aucune ligne perdue.")
+else:
+    print("⚠️ ATTENTION :")
+    print(f" - Total attendu : {total_original}")
+    print(f" - Total obtenu : {total_final}")
+    print("→ Il manque des lignes, ou certaines ont été dupliquées.")
