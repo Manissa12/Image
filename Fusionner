@@ -1,0 +1,51 @@
+Sub FusionnerPlusieursLignes()
+
+    Dim plage As Range
+    Dim ligneDepart As Long
+    Dim ligneFin As Long
+    Dim col As Long
+    Dim i As Long
+    Dim derniereColonne As Long
+    Dim texteFusion As String
+    
+    'Vérifie qu'on sélectionne plusieurs lignes
+    If Selection.Rows.Count < 2 Then
+        MsgBox "Sélectionne au moins 2 lignes."
+        Exit Sub
+    End If
+    
+    Set plage = Selection
+    ligneDepart = plage.Rows(1).Row
+    ligneFin = plage.Rows(plage.Rows.Count).Row
+    
+    'Détecte la dernière colonne utilisée
+    derniereColonne = Cells(ligneDepart, Columns.Count).End(xlToLeft).Column
+    
+    For col = 1 To derniereColonne
+        
+        texteFusion = ""
+        
+        For i = ligneDepart To ligneFin
+            
+            If Cells(i, col).Value <> "" Then
+                
+                If texteFusion = "" Then
+                    texteFusion = Cells(i, col).Value
+                Else
+                    texteFusion = texteFusion & vbLf & Cells(i, col).Value
+                End If
+                
+            End If
+            
+        Next i
+        
+        Cells(ligneDepart, col).Value = texteFusion
+        
+    Next col
+    
+    'Supprime les lignes en dessous
+    Rows(ligneDepart + 1 & ":" & ligneFin).Delete
+    
+    MsgBox "Fusion complète terminée."
+
+End Sub
